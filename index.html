@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Trends 商業環境監測儀表板｜Market Intelligence Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    :root{--primary:#ea580c;--primary-light:#fff7ed;--accent:#7c3aed;--success:#059669;--bg:#f8fafc;--card:#ffffff;--border:#e2e8f0;--text:#0f172a;--text-muted:#64748b;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:-apple-system,'PingFang TC','Microsoft JhengHei',sans-serif;background:var(--bg);color:var(--text);line-height:1.8;}
+    header{background:linear-gradient(135deg,#9a3412 0%,#ea580c 50%,#7c3aed 100%);color:white;padding:72px 40px 56px;text-align:center;position:relative;overflow:hidden;}
+    header::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");}
+    .hero-tag{display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:5px 16px;font-size:.85rem;letter-spacing:.05em;margin-bottom:16px;}
+    header h1{font-size:2.4rem;font-weight:800;margin-bottom:16px;line-height:1.2;}
+    header h1 span{color:#fed7aa;}
+    header .subtitle{font-size:1.1rem;opacity:.85;max-width:640px;margin:0 auto 28px;}
+    .tech-pills{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:32px;}
+    .tech-pill{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:6px 16px;font-size:.85rem;font-weight:500;}
+    .hero-stats{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;padding-top:24px;border-top:1px solid rgba(255,255,255,0.2);}
+    .hero-stat .num{font-size:2rem;font-weight:800;}
+    .hero-stat .lbl{font-size:.8rem;opacity:.75;margin-top:2px;}
+    main{max-width:960px;margin:0 auto;padding:48px 24px;}
+    section{margin-bottom:56px;}
+    .section-label{font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--primary);margin-bottom:8px;}
+    h2{font-size:1.65rem;font-weight:800;color:var(--text);margin-bottom:8px;}
+    .section-desc{font-size:1rem;color:var(--text-muted);margin-bottom:24px;max-width:680px;}
+    h3{font-size:1.05rem;font-weight:700;margin:20px 0 8px;}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.04);}
+    .card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;}
+    .problem-card{border-left:4px solid #dc2626;background:#fff5f5;}
+    .solution-card{border-left:4px solid var(--success);background:#f0fdf4;}
+    .problem-card h3{color:#dc2626;}
+    .solution-card h3{color:var(--success);}
+    .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;}
+    .stat-card{background:var(--primary-light);border-radius:12px;padding:20px;text-align:center;}
+    .stat-card .number{font-size:2rem;font-weight:800;color:var(--primary);}
+    .stat-card .label{font-size:.82rem;color:var(--text-muted);margin-top:4px;}
+    .mermaid{background:white;border-radius:10px;padding:20px;margin:12px 0;overflow-x:auto;}
+    table{width:100%;border-collapse:collapse;font-size:.92rem;}
+    th{background:#f1f5f9;padding:10px 14px;text-align:left;font-weight:600;border-bottom:2px solid var(--border);}
+    td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:top;}
+    tr:last-child td{border-bottom:none;}
+    tr:hover td{background:#f8fafc;}
+    .tag{display:inline-block;padding:2px 10px;border-radius:12px;font-size:.8rem;font-weight:600;}
+    .tag-orange{background:#ffedd5;color:#9a3412;}
+    .tag-green{background:#dcfce7;color:#166534;}
+    .tag-blue{background:#dbeafe;color:#1e40af;}
+    .tag-red{background:#fee2e2;color:#991b1b;}
+    .trend-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
+    .trend-chip{background:#f1f5f9;border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:.85rem;}
+    .trend-chip.new{background:#fef9c3;border-color:#fde047;}
+    .trend-chip.rising{background:#dcfce7;border-color:#86efac;}
+    .trend-chip.falling{background:#fee2e2;border-color:#fca5a5;}
+    .tech-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;}
+    .tech-item{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 16px;}
+    .tech-icon{font-size:1.5rem;flex-shrink:0;}
+    .tech-name{font-weight:700;font-size:.9rem;}
+    .tech-desc{font-size:.8rem;color:var(--text-muted);}
+    footer{text-align:center;padding:40px 24px;color:var(--text-muted);font-size:.85rem;border-top:1px solid var(--border);}
+    footer a{color:var(--primary);text-decoration:none;}
+  </style>
+</head>
+<body>
+<header>
+  <div class="hero-tag">📈 Selenium × Chart.js × 自動排程</div>
+  <h1>Google Trends 商業環境<br><span>監測儀表板</span></h1>
+  <p class="subtitle">每週自動爬取 Google Trends 台灣區商業熱搜，經過白名單過濾與主題聚合，以互動式儀表板呈現總體商業環境趨勢</p>
+  <div class="tech-pills">
+    <span class="tech-pill">Python</span>
+    <span class="tech-pill">Selenium</span>
+    <span class="tech-pill">Chart.js 4.4</span>
+    <span class="tech-pill">GitHub Pages</span>
+    <span class="tech-pill">Papermill</span>
+    <span class="tech-pill">Windows 排程</span>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="num">每週</div><div class="lbl">自動更新</div></div>
+    <div class="hero-stat"><div class="num">10 大</div><div class="lbl">商業主題聚合</div></div>
+    <div class="hero-stat"><div class="num">4 種</div><div class="lbl">趨勢分類</div></div>
+    <div class="hero-stat"><div class="num">全自動</div><div class="lbl">爬取 → 分析 → 發布</div></div>
+  </div>
+</header>
+<main>
+
+<section>
+  <div class="section-label">Background</div>
+  <h2>這個系統在解決什麼問題？</h2>
+  <p class="section-desc">業務與行銷團隊需要掌握市場熱點，但 Google Trends 的原始介面難以做跨週比較與主題聚合分析。</p>
+  <div class="card-grid">
+    <div class="card problem-card">
+      <h3>😣 過去的痛點</h3>
+      <ul style="padding-left:18px;font-size:.92rem;color:#374151;margin-top:8px;">
+        <li style="margin-bottom:8px">Google Trends 介面難以跨週比較趨勢變化</li>
+        <li style="margin-bottom:8px">熱搜中混雜娛樂、新聞，難以聚焦商業議題</li>
+        <li style="margin-bottom:8px">無法自動識別「新興崛起」vs「持續上升」的關鍵字</li>
+        <li>主題聚合需要人工整理，無法即時更新</li>
+      </ul>
+    </div>
+    <div class="card solution-card">
+      <h3>✅ 系統如何解決</h3>
+      <ul style="padding-left:18px;font-size:.92rem;color:#374151;margin-top:8px;">
+        <li style="margin-bottom:8px">Selenium 每週自動爬取，商業白名單過濾雜訊</li>
+        <li style="margin-bottom:8px">自動分類趨勢（新興★ / 上升↑ / 持平→ / 下降↓）</li>
+        <li style="margin-bottom:8px">10 大商業主題自動聚合（AI 科技、半導體、地緣衝突等）</li>
+        <li>GitHub Pages 自動發布，隨時可瀏覽最新儀表板</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-label">Pipeline</div>
+  <h2>全自動更新流程</h2>
+  <div class="card">
+    <div class="mermaid">
+flowchart TD
+    A["⏰ Windows 排程\n每週自動觸發"] --> B["Selenium\n爬取 Google Trends\n台灣商業類別"]
+    B --> C["商業白名單過濾\n排除娛樂/新聞雜訊"]
+    C --> D["趨勢分類\n新興★ / 上升↑ / 持平→ / 下降↓"]
+    D --> E["Papermill\n執行分析 Notebook"]
+    E --> F["10 大主題聚合\nAI科技/半導體/地緣等"]
+    F --> G["Chart.js\n互動式 HTML 儀表板"]
+    G --> H["Git Push\n自動同步 GitHub Pages"]
+    H --> I["🌐 線上儀表板\n即時可瀏覽"]
+    style B fill:#ea580c,color:#fff
+    style I fill:#059669,color:#fff
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-label">Features</div>
+  <h2>儀表板功能</h2>
+  <div class="card">
+    <table>
+      <tr><th>功能</th><th>說明</th></tr>
+      <tr><td><span class="tag tag-orange">關鍵字視角</span></td><td>Top 排名清單、類別篩選、趨勢分類標籤、時間區間選擇</td></tr>
+      <tr><td><span class="tag tag-blue">主題視角</span></td><td>10 大商業主題聚合，語意相關關鍵字自動歸類</td></tr>
+      <tr><td><span class="tag tag-green">Sparkline 圖</span></td><td>每個關鍵字的月份趨勢微折線圖，一眼掌握走向</td></tr>
+      <tr><td><span class="tag tag-orange">首現標記</span></td><td>標示本週首次出現的新興關鍵字</td></tr>
+      <tr><td><span class="tag tag-blue">URL 狀態記憶</span></td><td>篩選條件寫入 URL，可直接分享特定視角</td></tr>
+      <tr><td><span class="tag tag-green">CSV 匯出</span></td><td>一鍵匯出當前篩選結果為 CSV</td></tr>
+    </table>
+  </div>
+  <div class="card" style="margin-top:16px;">
+    <h3>10 大商業主題</h3>
+    <div class="trend-tags">
+      <span class="trend-chip new">★ AI 科技浪潮</span>
+      <span class="trend-chip rising">↑ 半導體供應鏈</span>
+      <span class="trend-chip">→ 地緣衝突影響</span>
+      <span class="trend-chip rising">↑ 綠能轉型</span>
+      <span class="trend-chip">→ 電動車市場</span>
+      <span class="trend-chip new">★ 生成式 AI 應用</span>
+      <span class="trend-chip">→ 資安威脅</span>
+      <span class="trend-chip rising">↑ 供應鏈重組</span>
+      <span class="trend-chip">→ 勞動市場</span>
+      <span class="trend-chip falling">↓ 通膨議題</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-label">Tech Stack</div>
+  <h2>技術選型</h2>
+  <div class="tech-grid">
+    <div class="tech-item"><div class="tech-icon">🌐</div><div><div class="tech-name">Selenium (headless)</div><div class="tech-desc">Chrome 無頭模式爬取動態渲染的 Google Trends</div></div></div>
+    <div class="tech-item"><div class="tech-icon">📊</div><div><div class="tech-name">Chart.js 4.4</div><div class="tech-desc">互動式折線圖、Sparkline、主題分布圖</div></div></div>
+    <div class="tech-item"><div class="tech-icon">📓</div><div><div class="tech-name">Papermill</div><div class="tech-desc">參數化執行 Jupyter Notebook，批次分析</div></div></div>
+    <div class="tech-item"><div class="tech-icon">🚀</div><div><div class="tech-name">GitHub Pages</div><div class="tech-desc">靜態 HTML 自動部署，無需後端伺服器</div></div></div>
+    <div class="tech-item"><div class="tech-icon">⏰</div><div><div class="tech-name">Windows Task Scheduler</div><div class="tech-desc">每週固定時間自動觸發整個流程</div></div></div>
+    <div class="tech-item"><div class="tech-icon">🐍</div><div><div class="tech-name">Python</div><div class="tech-desc">資料清洗、白名單過濾、主題聚合邏輯</div></div></div>
+  </div>
+</section>
+
+</main>
+<footer>
+  <p>Google Trends 商業環境監測儀表板 &nbsp;|&nbsp; Built with Python + Selenium + Chart.js &nbsp;|&nbsp; <a href="https://github.com/yujuigato/google-trends-intelligence">GitHub</a></p>
+  <p style="margin-top:6px;">最後更新：2026-06-12</p>
+</footer>
+<script>mermaid.initialize({startOnLoad:true,theme:'base',themeVariables:{primaryColor:'#ffedd5',primaryTextColor:'#9a3412',primaryBorderColor:'#fb923c',lineColor:'#64748b'}});</script>
+</body>
+</html>
