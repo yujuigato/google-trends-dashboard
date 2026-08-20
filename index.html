@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Google Trends 商業環境監測儀表板｜Market Intelligence Dashboard</title>
+  <title>業務情報看板群｜Business Intelligence Dashboard Suite</title>
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <style>
     :root{--primary:#ea580c;--primary-light:#fff7ed;--success:#059669;--warning:#d97706;--danger:#dc2626;--bg:#f8fafc;--card:#ffffff;--border:#e2e8f0;--text:#0f172a;--text-muted:#64748b;--text-light:#94a3b8;}
@@ -14,7 +14,7 @@
     .hero-tag{display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:5px 16px;font-size:.85rem;letter-spacing:.05em;margin-bottom:16px;}
     header h1{font-size:2.4rem;font-weight:800;margin-bottom:16px;line-height:1.2;}
     header h1 span{color:#fed7aa;}
-    header .subtitle{font-size:1.1rem;opacity:.85;max-width:640px;margin:0 auto 28px;}
+    header .subtitle{font-size:1.1rem;opacity:.85;max-width:680px;margin:0 auto 28px;}
     .tech-pills{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:32px;}
     .tech-pill{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:6px 16px;font-size:.85rem;font-weight:500;}
     .hero-stats{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;padding-top:24px;border-top:1px solid rgba(255,255,255,0.2);}
@@ -22,6 +22,10 @@
     .hero-stat .lbl{font-size:.8rem;opacity:.75;margin-top:2px;}
     main{max-width:960px;margin:0 auto;padding:48px 24px;}
     section{margin-bottom:56px;}
+    .board-divider{display:flex;align-items:center;gap:16px;margin:64px 0 40px;}
+    .board-divider .num{width:44px;height:44px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.1rem;flex-shrink:0;}
+    .board-divider h2{font-size:1.5rem;font-weight:800;margin:0;}
+    .board-divider .sub{font-size:.85rem;color:var(--text-muted);margin-top:2px;}
     .section-label{font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--primary);margin-bottom:8px;}
     h2{font-size:1.65rem;font-weight:800;color:var(--text);margin-bottom:8px;line-height:1.3;}
     .section-desc{font-size:1rem;color:var(--text-muted);margin-bottom:24px;max-width:680px;}
@@ -52,6 +56,8 @@
     .tag-orange{background:#ffedd5;color:#9a3412;}
     .tag-green{background:#dcfce7;color:#166534;}
     .tag-blue{background:#dbeafe;color:#1e40af;}
+    .tag-red{background:#fee2e2;color:#991b1b;}
+    .tag-purple{background:#ede9fe;color:#5b21b6;}
     .challenge-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;}
     .challenge-item{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px;}
     .challenge-item .ch-label{font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--warning);margin-bottom:6px;}
@@ -64,9 +70,16 @@
     .tech-icon{font-size:1.5rem;flex-shrink:0;}
     .tech-name{font-weight:700;font-size:.9rem;}
     .tech-desc{font-size:.8rem;color:var(--text-muted);}
+    .board-nav{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;}
+    .board-nav-card{display:block;text-decoration:none;color:inherit;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px;transition:transform .15s,box-shadow .15s;}
+    .board-nav-card:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.08);}
+    .board-nav-card .icon{font-size:1.6rem;margin-bottom:10px;}
+    .board-nav-card h4{font-size:1rem;font-weight:800;margin-bottom:6px;}
+    .board-nav-card p{font-size:.85rem;color:var(--text-muted);}
+    .board-nav-card .link{font-size:.8rem;color:var(--primary);font-weight:700;margin-top:10px;}
     footer{text-align:center;padding:40px 24px;color:var(--text-muted);font-size:.85rem;border-top:1px solid var(--border);}
     footer a{color:var(--primary);text-decoration:none;}
-  
+
   @media(max-width:640px){
     header{padding:48px 20px 36px;}
     header h1{font-size:1.7rem;}
@@ -77,40 +90,72 @@
     .tech-pills{gap:6px;}
     main{padding:32px 16px;}
     h2{font-size:1.3rem;}
-    .card-grid,.challenge-grid,.tech-grid{grid-template-columns:1fr;}
+    .card-grid,.challenge-grid,.tech-grid,.board-nav{grid-template-columns:1fr;}
     .stat-grid{grid-template-columns:repeat(2,1fr);}
-    .score-grid{grid-template-columns:repeat(2,1fr);}
     table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;}
     .mermaid{overflow-x:auto;}
     .step{gap:12px;}
     .step-num{width:30px;height:30px;font-size:.8rem;}
-    .l7-grid{grid-template-columns:1fr;}
-    .output-grid{grid-template-columns:1fr;}
-    .system-badge{font-size:.72rem;padding:3px 10px;}
+    .board-divider .num{width:36px;height:36px;font-size:.95rem;}
+    .board-divider h2{font-size:1.25rem;}
   }
 </style>
 </head>
 <body>
 <header>
-  <div class="hero-tag">📈 Selenium × 自動排程 × GitHub Pages</div>
-  <h1>Google Trends 商業環境<br><span>監測儀表板</span></h1>
-  <p class="subtitle">每週自動爬取 Google Trends 台灣區商業熱搜，過濾雜訊、分類趨勢、聚合主題，以互動式儀表板呈現總體商業環境動向</p>
+  <div class="hero-tag">📊 Gemini AI × Selenium × GitHub Pages</div>
+  <h1>業務情報<br><span>看板群</span></h1>
+  <p class="subtitle">三個互動式看板：總體商業環境熱搜監測、競品負面新聞監控、法規商機訊號偵測。從資料爬取、AI 逐則分類到自動發布，全程無人值守，GitHub Pages 每日／每週自動更新</p>
   <div class="tech-pills">
     <span class="tech-pill">Python</span>
+    <span class="tech-pill">Gemini AI</span>
     <span class="tech-pill">Selenium</span>
-    <span class="tech-pill">Chart.js 4.4</span>
-    <span class="tech-pill">Papermill</span>
+    <span class="tech-pill">Google News RSS</span>
+    <span class="tech-pill">Chart.js</span>
     <span class="tech-pill">GitHub Pages</span>
-    <span class="tech-pill">Windows 排程</span>
   </div>
   <div class="hero-stats">
-    <div class="hero-stat"><div class="num">每週</div><div class="lbl">全自動更新</div></div>
-    <div class="hero-stat"><div class="num">10 大</div><div class="lbl">商業主題聚合</div></div>
-    <div class="hero-stat"><div class="num">4 種</div><div class="lbl">趨勢方向分類</div></div>
+    <div class="hero-stat"><div class="num">3 個</div><div class="lbl">互動看板</div></div>
+    <div class="hero-stat"><div class="num">每日/每週</div><div class="lbl">全自動更新</div></div>
+    <div class="hero-stat"><div class="num">Gemini AI</div><div class="lbl">逐則分類判斷</div></div>
     <div class="hero-stat"><div class="num">零後端</div><div class="lbl">純靜態 GitHub Pages</div></div>
   </div>
 </header>
 <main>
+
+<section>
+  <div class="section-label">Overview</div>
+  <h2>三個看板，三種商業情報</h2>
+  <p class="section-desc">同一套自動化理念（爬取 → AI 判斷 → 靜態發布）套用在三個不同的商業情報場景，業務、行銷團隊不需要手動整理任何資料。</p>
+  <div class="board-nav">
+    <div class="board-nav-card">
+      <div class="icon">📈</div>
+      <h4>看板一：總體商業環境</h4>
+      <p>每週爬取 Google Trends 台灣商業熱搜，白名單過濾、趨勢分類、10 大主題聚合。</p>
+      <div class="link">往下看 ↓</div>
+    </div>
+    <div class="board-nav-card">
+      <div class="icon">🏢</div>
+      <h4>看板二：競品情報看板</h4>
+      <p>監控 ERP/CRM 競爭對手負面新聞，Gemini 逐則判斷是否真的相關、是否為負面事件。</p>
+      <div class="link">往下看 ↓</div>
+    </div>
+    <div class="board-nav-card">
+      <div class="icon">📜</div>
+      <h4>看板三：法規商機看板</h4>
+      <p>監控 ESG、資安、碳費等法規動態，並自動偵測清單以外的新興法規主題。</p>
+      <div class="link">往下看 ↓</div>
+    </div>
+  </div>
+</section>
+
+<div class="board-divider">
+  <div class="num">1</div>
+  <div>
+    <h2>總體商業環境監測儀表板</h2>
+    <div class="sub">Market Trends Dashboard · 每週自動更新</div>
+  </div>
+</div>
 
 <section>
   <div class="section-label">Background</div>
@@ -162,7 +207,6 @@ flowchart TD
       <div class="step-body">
         <h4>自動爬取</h4>
         <p>Windows Task Scheduler 每週觸發，Selenium 以 headless Chrome 模擬瀏覽器操作，爬取 Google Trends 台灣商業類別的週度熱搜排名。</p>
-        <div class="step-detail">無頭模式：不開啟視窗視覺介面，背景靜默執行，不干擾使用者工作</div>
       </div>
     </div>
     <div class="step">
@@ -170,7 +214,6 @@ flowchart TD
       <div class="step-body">
         <h4>商業白名單過濾</h4>
         <p>Google Trends 熱搜混雜娛樂明星、體育賽事等雜訊，白名單過濾只保留與商業環境相關的關鍵字。</p>
-        <div class="step-detail">白名單由業務與行銷團隊共同維護，持續更新以反映關注的商業議題範疇</div>
       </div>
     </div>
     <div class="step">
@@ -251,53 +294,193 @@ flowchart TD
   </div>
 </section>
 
+<div class="board-divider">
+  <div class="num">2</div>
+  <div>
+    <h2>競品情報看板</h2>
+    <div class="sub">Competitive Intelligence Dashboard · 每日自動更新</div>
+  </div>
+</div>
+
 <section>
-  <div class="section-label">Dashboard Features</div>
-  <h2>儀表板功能</h2>
-  <div class="card">
-    <table>
-      <tr><th>功能</th><th>說明</th></tr>
-      <tr><td><span class="tag tag-orange">趨勢分類</span></td><td>★ 新興 / ↑ 上升 / → 持平 / ↓ 下降，一眼識別機會</td></tr>
-      <tr><td><span class="tag tag-blue">主題視角</span></td><td>10 大商業主題聚合，跨主題比較熱度</td></tr>
-      <tr><td><span class="tag tag-orange">Sparkline</span></td><td>每個關鍵字的月份微折線圖，掌握長期走向</td></tr>
-      <tr><td><span class="tag tag-green">首現標記</span></td><td>本週首次出現的新興關鍵字特別標示</td></tr>
-      <tr><td><span class="tag tag-blue">URL 狀態記憶</span></td><td>篩選條件寫入 URL，可直接分享特定視角給同事</td></tr>
-      <tr><td><span class="tag tag-green">CSV 匯出</span></td><td>一鍵匯出當前篩選結果，方便進一步分析</td></tr>
-    </table>
+  <div class="section-label">Background</div>
+  <h2>這個看板在解決什麼問題？</h2>
+  <p class="section-desc">業務同仁很難逐一追蹤每家 ERP/CRM 競爭對手的負面消息（當機、資安漏洞、裁罰、倒閉等），逐一手動搜尋既耗時又容易漏掉。</p>
+  <div class="card-grid">
+    <div class="card problem-card">
+      <h3>😣 過去的痛點</h3>
+      <ul style="padding-left:18px;font-size:.92rem;color:#374151;margin-top:8px;">
+        <li style="margin-bottom:8px">競爭對手數十家，逐一手動搜尋新聞不可行</li>
+        <li style="margin-bottom:8px">短公司名（如「正航」「凌越」）搜尋容易誤命中同名不同產業的無關新聞</li>
+        <li>沒有系統化的方式判斷一則新聞是否真的構成「負面事件」</li>
+      </ul>
+    </div>
+    <div class="card solution-card">
+      <h3>✅ 看板如何解決</h3>
+      <ul style="padding-left:18px;font-size:.92rem;color:#374151;margin-top:8px;">
+        <li style="margin-bottom:8px">從業務日報萃取出的競爭者名單自動查詢 Google News</li>
+        <li style="margin-bottom:8px">Gemini AI 逐則判斷「是否真的與該公司相關」與「是否為負面事件」，排除同名不同產業誤判</li>
+        <li>依 ERP専屬／ERP同類（BPM/MES/SI）分類呈現，另設本公司自身新聞監控區塊</li>
+      </ul>
+    </div>
   </div>
 </section>
 
 <section>
-  <div class="section-label">Results</div>
-  <h2>對業務團隊的實際改變</h2>
+  <div class="section-label">How It Works</div>
+  <h2>看板如何運作？</h2>
+  <div class="card" style="margin-bottom:24px;">
+    <div class="mermaid">
+flowchart TD
+    A["⏰ Windows Task Scheduler\n每日 07:00 觸發"] --> B["業務日報競爭者清單\n萃取 + 正規化去重"]
+    B --> C["Google News RSS\n查詢：競爭者簡稱 + 負面關鍵字"]
+    C --> D["Gemini AI\n逐則判斷相關性 + 是否負面"]
+    D --> E["依 ERP専屬／ERP同類\n分類彙整"]
+    E --> F["本公司自身新聞\n正面／負面／中性標記"]
+    F --> G["Git Push\n自動同步 GitHub Pages"]
+    G --> H["🌐 線上即時可查看"]
+    style D fill:#ea580c,color:#fff
+    style H fill:#059669,color:#fff
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-label">Engineering Challenges</div>
+  <h2>解決了哪些技術難題？</h2>
+  <div class="challenge-grid">
+    <div class="challenge-item">
+      <div class="ch-label">Challenge 1</div>
+      <h4>同名不同產業的誤判</h4>
+      <p>短公司名容易命中無關新聞，例如「偉盟」誤命中「偉盟工業」炒股新聞，而非真正的競爭對手「偉盟系統」。</p>
+      <div class="arrow">↓ 解決方案</div>
+      <p class="solution">Prompt 明確告知 Gemini 目標公司的產業背景（ERP/CRM 供應商），要求判斷「標題描述的公司是否真的在做企業管理軟體」，同名不同產業一律排除</p>
+    </div>
+    <div class="challenge-item">
+      <div class="ch-label">Challenge 2</div>
+      <h4>競爭者名單雜訊多</h4>
+      <p>業務日報原始備註裡有大量空泛描述（如「其他既有ERP系統廠商」）與同賽道但非ERP的公司名稱，直接拿來查會浪費大量查詢額度。</p>
+      <div class="arrow">↓ 解決方案</div>
+      <p class="solution">兩輪 LLM 批次分類清理：先排除空泛描述，再排除非ERP相關名稱，只保留真正的競品才納入監控</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-label">Dashboard Features</div>
+  <h2>看板功能</h2>
   <div class="card">
     <table>
-      <tr><th>過去</th><th>現在</th></tr>
-      <tr><td>每週人工整理 Google Trends，花 2–3 小時</td><td>0 人工，系統每週自動更新發布</td></tr>
-      <tr><td>只看關鍵字，看不出是新興還是消退趨勢</td><td>4 種趨勢方向自動標示，★ 新興一眼辨識</td></tr>
-      <tr><td>資訊散落，難以跨週比較變化</td><td>10 大主題聚合 + 歷史對比，趨勢演進一目瞭然</td></tr>
-      <tr><td>只能 email 附件分享，版本混亂</td><td>URL 篩選狀態分享，同事開啟看到相同視角</td></tr>
+      <tr><th>功能</th><th>說明</th></tr>
+      <tr><td><span class="tag tag-red">負面事件標記</span></td><td>逐則新聞標示是否為負面事件（當機/裁罰/違約/倒閉/停業/求償/資安/客訴）</td></tr>
+      <tr><td><span class="tag tag-blue">分類分區</span></td><td>ERP専屬 / ERP同類（BPM/MES/系統整合）分區呈現，一眼看出賽道位置</td></tr>
+      <tr><td><span class="tag tag-purple">本公司監控</span></td><td>獨立區塊監控自身新聞，正面／負面／中性三態標記</td></tr>
+      <tr><td><span class="tag tag-green">本週新聞摘要</span></td><td>近7天新聞獨立呈現，快速掌握最新動態</td></tr>
+      <tr><td><span class="tag tag-orange">日期區間篩選</span></td><td>自由選取起訖日期，聚焦特定時段的事件</td></tr>
+    </table>
+  </div>
+</section>
+
+<div class="board-divider">
+  <div class="num">3</div>
+  <div>
+    <h2>法規商機看板</h2>
+    <div class="sub">Regulatory Opportunity Dashboard · 每日自動更新</div>
+  </div>
+</div>
+
+<section>
+  <div class="section-label">Background</div>
+  <h2>這個看板在解決什麼問題？</h2>
+  <p class="section-desc">法規上路往往逼企業導入或升級系統（例如強制電子發票、碳盤查申報），對 ERP 供應商是商機訊號，但法規多、變動快，業務難以即時掌握。</p>
+  <div class="card-grid">
+    <div class="card problem-card">
+      <h3>😣 過去的痛點</h3>
+      <ul style="padding-left:18px;font-size:.92rem;color:#374151;margin-top:8px;">
+        <li style="margin-bottom:8px">ESG、資安、碳費等法規領域眾多，業務無暇逐一追蹤</li>
+        <li style="margin-bottom:8px">只監控預先想到的法規清單，容易錯過剛冒出的新興法規（如某產業新規、修法）</li>
+        <li>新聞看到了，也不容易快速判斷「誰會受影響」「什麼時候生效」</li>
+      </ul>
+    </div>
+    <div class="card solution-card">
+      <h3>✅ 看板如何解決</h3>
+      <ul style="padding-left:18px;font-size:.92rem;color:#374151;margin-top:8px;">
+        <li style="margin-bottom:8px">固定主題查詢＋廣泛偵測查詢雙軌並行，自動發現清單外的新興法規</li>
+        <li style="margin-bottom:8px">Gemini 萃取「法規名稱／生效時間／適用對象」，快速掌握商機輪廓</li>
+        <li>七大分類（ESG、資安、碳排、勞動、食安、稅務、採購）自動歸類呈現</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-label">How It Works</div>
+  <h2>看板如何運作？（自動偵測新興法規）</h2>
+  <div class="card" style="margin-bottom:24px;">
+    <div class="mermaid">
+flowchart TD
+    A["⏰ Windows Task Scheduler\n每日觸發"] --> B["固定主題查詢\n11個已知法規領域"]
+    A --> C["廣泛偵測查詢\n不綁定特定法規名稱"]
+    B --> D["Gemini AI\n萃取法規名稱/生效時間/適用對象"]
+    C --> D
+    D --> E{"是清單內主題\n還是新發現？"}
+    E -->|清單內| F["併入既有主題"]
+    E -->|新發現| G["自動建立新主題\n依LLM萃取的法規名稱分組"]
+    F --> H["七大分類 + 中文標籤"]
+    G --> H
+    H --> I["Git Push\n自動同步 GitHub Pages"]
+    style D fill:#ea580c,color:#fff
+    style G fill:#7c3aed,color:#fff
+    style I fill:#059669,color:#fff
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-label">Engineering Challenges</div>
+  <h2>解決了哪些技術難題？</h2>
+  <div class="challenge-grid">
+    <div class="challenge-item">
+      <div class="ch-label">Challenge</div>
+      <h4>「封閉清單」看不到新興法規</h4>
+      <p>只監控預先設定的固定關鍵字清單，永遠只能看到已知的法規領域，看不到剛冒出來、沒預先想到的新規。</p>
+      <div class="arrow">↓ 解決方案</div>
+      <p class="solution">另外設計「廣泛偵測查詢」：用「強制實施」「新制上路」「主管機關公告」等不綁定特定法規名稱的通用語句查詢，讓 LLM 自己從新聞裡辨識出「這是什麼法規」，依萃取出的法規名稱分組，自動判斷是否為清單外的新主題並併入看板，讓系統具備真正的「發現」能力而非只有「確認」能力</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-label">Dashboard Features</div>
+  <h2>看板功能</h2>
+  <div class="card">
+    <table>
+      <tr><th>功能</th><th>說明</th></tr>
+      <tr><td><span class="tag tag-blue">七大分類</span></td><td>ESG/永續揭露、資安/網路安全、碳排/環保法規、勞動法規、食品安全、稅務/財務、採購/其他法規</td></tr>
+      <tr><td><span class="tag tag-purple">自動發現</span></td><td>不限於預設清單，自動偵測並新增清單外的新興法規主題</td></tr>
+      <tr><td><span class="tag tag-green">關鍵資訊萃取</span></td><td>法規名稱、生效時間、適用對象一次呈現，快速判斷商機輪廓</td></tr>
+      <tr><td><span class="tag tag-orange">中文標籤</span></td><td>純英文或英文夾雜的法規名稱自動翻譯補上簡短中文標籤</td></tr>
     </table>
   </div>
 </section>
 
 <section>
   <div class="section-label">Tech Stack</div>
-  <h2>技術選型</h2>
+  <h2>技術選型（全系列共用）</h2>
   <div class="tech-grid">
+    <div class="tech-item"><div class="tech-icon">🤖</div><div><div class="tech-name">Gemini AI</div><div class="tech-desc">新聞相關性判斷、負面事件分類、法規資訊萃取</div></div></div>
     <div class="tech-item"><div class="tech-icon">🌐</div><div><div class="tech-name">Selenium (headless)</div><div class="tech-desc">Chrome 無頭模式爬取動態渲染頁面</div></div></div>
+    <div class="tech-item"><div class="tech-icon">📰</div><div><div class="tech-name">Google News RSS</div><div class="tech-desc">競品與法規新聞的即時資料來源</div></div></div>
     <div class="tech-item"><div class="tech-icon">📊</div><div><div class="tech-name">Chart.js 4.4</div><div class="tech-desc">互動式折線圖、Sparkline、分布圖</div></div></div>
-    <div class="tech-item"><div class="tech-icon">📓</div><div><div class="tech-name">Papermill</div><div class="tech-desc">參數化執行 Jupyter Notebook，批次分析</div></div></div>
     <div class="tech-item"><div class="tech-icon">🚀</div><div><div class="tech-name">GitHub Pages</div><div class="tech-desc">靜態 HTML 自動部署，免後端伺服器</div></div></div>
-    <div class="tech-item"><div class="tech-icon">⏰</div><div><div class="tech-name">Windows Task Scheduler</div><div class="tech-desc">每週固定時間觸發整個自動化流程</div></div></div>
-    <div class="tech-item"><div class="tech-icon">🐍</div><div><div class="tech-name">Python</div><div class="tech-desc">資料清洗、白名單過濾、主題聚合邏輯</div></div></div>
+    <div class="tech-item"><div class="tech-icon">⏰</div><div><div class="tech-name">Windows Task Scheduler</div><div class="tech-desc">每日/每週固定時間觸發整個自動化流程</div></div></div>
   </div>
 </section>
 
 </main>
 <footer>
-  <p>Google Trends 商業環境監測儀表板 &nbsp;|&nbsp; Built with Python + Selenium + Chart.js &nbsp;|&nbsp; <a href="https://github.com/yujuigato/google-trends-dashboard">GitHub</a></p>
-  <p style="margin-top:6px;">最後更新：2026-06-12</p>
+  <p>業務情報看板群 &nbsp;|&nbsp; Built with Python + Gemini AI + Selenium + Chart.js &nbsp;|&nbsp; <a href="https://github.com/yujuigato/google-trends-dashboard">GitHub</a></p>
+  <p style="margin-top:6px;">最後更新：2026-08-20</p>
 </footer>
 <script>mermaid.initialize({startOnLoad:true,theme:'base',themeVariables:{primaryColor:'#ffedd5',primaryTextColor:'#9a3412',primaryBorderColor:'#fb923c',lineColor:'#64748b'},flowchart:{curve:'monotoneX'}});</script>
 </body>
