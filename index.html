@@ -99,9 +99,18 @@
     .board-divider .num{width:36px;height:36px;font-size:.95rem;}
     .board-divider h2{font-size:1.25rem;}
   }
+  .corner-link{
+    position:fixed; top:14px; right:16px; z-index:60;
+    font-size:.78rem; font-weight:700; color:#fff; text-decoration:none;
+    padding:6px 14px; border-radius:99px; background:rgba(15,23,42,0.75);
+    border:1px solid rgba(255,255,255,0.25); backdrop-filter:blur(4px);
+    transition:background .15s;
+  }
+  .corner-link:hover{ background:rgba(15,23,42,0.92); }
 </style>
 </head>
 <body>
+<a href="https://yujuigato.github.io/" class="corner-link">🔗 作品集首頁</a>
 <header>
   <div class="hero-tag">📊 Gemini AI × Selenium × GitHub Pages</div>
   <h1>業務情報<br><span>看板群</span></h1>
